@@ -28,11 +28,12 @@ class SetupTables extends Migration
             $table->increments('id');
             $table->integer('fighter1_id')->unsigned();
             $table->integer('fighter2_id')->unsigned();
+            $table->integer('rounds');
             $table->foreign('fighter1_id')->references('id')->on('fighters')
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('fighter2_id')->references('id')->on('fighters')
                 ->onUpdate('cascade')->onDelete('cascade');
-            $table->integer('rounds');
+            
             $table->timestamps();
         });
 
