@@ -65,8 +65,8 @@ class SetupTables extends Migration
 
         Schema::create('predictions', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->unique();
-            $table->string('display_name')->unique();
+            $table->string('name')
+            $table->string('display_name')
             $table->timestamps();
         });
 

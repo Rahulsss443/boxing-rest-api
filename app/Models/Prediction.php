@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserPrediction extends Model
+class Prediction extends Model
 {
 
-    protected $table = 'user_prediction';
+    protected $table = 'predictions';
     protected $fillable = ['fight_id', 'user_id', 'prediction_id'];
    
 }

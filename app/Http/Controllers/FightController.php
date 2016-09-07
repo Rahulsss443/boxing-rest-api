@@ -38,5 +38,26 @@ class FightController extends Controller
         }
         return json_encode($data);
     }
-    
+
+    public function makePrediction(Request $request)
+    {
+        $fight = Fight::find($request->fight_id);
+        $predictionID = $request->predicion_id;
+        $fight->makePrediction($predictionID);
+        return $predictionID;
+    }
+
+    public function getPredictions($fightID)
+    {
+        $fight = Fight::find($fightID);
+        if (!$fight) {
+            return false;
+        }
+        $data = [];
+        $data['predictions'] = $fight->allPredictions();
+        $data['is_predicted'] = $fight->isPredicted();
+        $data['prediction_id'] = $fight->predictionID();
+        
+        return json_encode($data);
+    }
 }
