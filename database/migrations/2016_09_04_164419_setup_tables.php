@@ -14,7 +14,7 @@ class SetupTables extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('uuid')->unique();
+            $table->string('uuid')->unique();
             $table->timestamps();
         });
 
@@ -29,6 +29,7 @@ class SetupTables extends Migration
             $table->integer('fighter1_id')->unsigned();
             $table->integer('fighter2_id')->unsigned();
             $table->integer('rounds');
+            $table->dateTime('start_date');
             $table->foreign('fighter1_id')->references('id')->on('fighters')
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('fighter2_id')->references('id')->on('fighters')
@@ -45,7 +46,7 @@ class SetupTables extends Migration
             $table->timestamps();
         });
 
-        Schema::create('fight-result', function (Blueprint $table) {
+        Schema::create('fight_result', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('fight_id')->unsigned();
             $table->foreign('fight_id')->references('id')->on('fights')
@@ -96,7 +97,7 @@ class SetupTables extends Migration
         Schema::drop('users');
         Schema::drop('fighters');
         Schema::drop('fights');
-        Schema::drop('fight-result');
+        Schema::drop('fight_result');
         Schema::drop('predictions');
         Schema::drop('user_prediction');
     }

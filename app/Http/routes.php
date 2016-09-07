@@ -11,16 +11,12 @@
 |
 */
 
-$app->get('/', function () use ($app) {
-    return $app->version();
+ $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'], function () use ($app) {
+    $app->get('fight/create', 'FightController@create');
+    $app->get('fight/all', 'FightController@all');
+
+    $app->get('/', function () use ($app) {
+            return $app->version();
+    });
+   
 });
-
-/**
- * Routes for resource fight-controller
- */
-$app->get('fight-controller', 'FightControllersController@all');
-$app->get('fight/create', 'FightController@create');
-
-
-
-
