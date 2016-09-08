@@ -30,6 +30,7 @@ class FightController extends Controller
         $data = [];
         $i = 0;
         foreach ($fights as $fight) {
+            $data[$i]['fight_id'] = $fight->id;
             $data[$i]['fighter1'] = $fight->fighter1->name;
             $data[$i]['fighter2'] = $fight->fighter2->name;
             $data[$i]['start_date'] = $fight->start;
