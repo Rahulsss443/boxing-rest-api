@@ -47,8 +47,9 @@ class FightController extends Controller
         return $predictionID;
     }
 
-    public function getPredictions($fightID)
+    public function getPredictions(Request $request)
     {
+        $fightID = $request->fight_id;
         $fight = Fight::find($fightID);
         if (!$fight) {
             return false;
@@ -60,4 +61,6 @@ class FightController extends Controller
         
         return json_encode($data);
     }
+
+
 }

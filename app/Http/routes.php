@@ -15,10 +15,13 @@
     $app->get('fight/create', 'FightController@create');
     $app->get('fight/all', 'FightController@all');
     $app->get('fight/make_prediction', 'FightController@makePrediction');
-    $app->get('fight/getPredictions/{fight_id}', 'FightController@getPredictions');
+    $app->get('fight/getPredictions', 'FightController@getPredictions');
 
     $app->get('/', function () use ($app) {
             return $app->version();
+    });
+    $app->get('/foo', function(){
+        
     });
    
 });
