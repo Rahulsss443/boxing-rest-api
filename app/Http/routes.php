@@ -17,11 +17,17 @@
     $app->get('fight/make_prediction', 'FightController@makePrediction');
     $app->get('fight/getPredictions', 'FightController@getPredictions');
 
-    $app->get('/', function () use ($app) {
+   // $app->get('/', function () use ($app) {
+     //       return $app->version();
+   // });
+   // $app->get('/foo', function(){
+        
+   // });
+   
+});
+ $app->get('/', function () use ($app) {
             return $app->version();
     });
     $app->get('/foo', function(){
-        
+return "Hello";
     });
-   
-});
