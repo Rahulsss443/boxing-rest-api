@@ -41,7 +41,7 @@ class SetupTables extends Migration
         Schema::create('outcomes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
-            $table->string('description')->unique();
+            $table->string('description');
             $table->string('abbr')->unique();
             $table->timestamps();
         });
