@@ -44,9 +44,9 @@ class User extends Model implements
          $predictions = $this->old_predictions;
          $fightIDs = [];
          foreach ($predictions as $prediction) {
-           $fightsIDs[] = $prediction->fight_id;
+           $fightIDs[] = $prediction->fight_id;
          }
 
-         return Fight::whereIn('id', $fightsIDs)->get();
+         return Fight::whereIn('id', $fightIDs)->get();
     }
 }
