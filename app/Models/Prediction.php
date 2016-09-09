@@ -8,6 +8,13 @@ class Prediction extends Model
 {
 
     protected $table = 'predictions';
-    protected $fillable = ['fight_id', 'user_id', 'prediction_id'];
-   
+
+    public function status($fight)
+    {
+
+        $predictionCount = UserPrediction::where('fight_id', $fight->id)
+                                        ->where('prediction_id', $this->id)
+                                        ->count();
+        return  ((int) (($predictionCount/$fight->totalPredictions())*100));
+    }
 }

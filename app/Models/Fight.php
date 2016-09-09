@@ -54,20 +54,35 @@ class Fight extends Model
         $i =0;
         foreach ($predictions as $prediction) {
             switch ($prediction->name) {
-              case 'fighter1-on-points':
-                 $data[] = $this->fighter1->name.' '.$prediction->display_name;
+                case 'fighter1-on-points':
+                    $data[$i]['id'] = $prediction->id;
+                    $data[$i]['prediction'] = $this->fighter1->name.' '.$prediction->display_name;
+                    $data[$i]['status'] = $prediction->status($this);
+                    $i++;
                   break;
-            case 'fighter1-distance':
-                 $data[] = $this->fighter1->name.' '.$prediction->display_name;
+                case 'fighter1-distance':
+                    $data[$i]['id'] = $prediction->id;
+                    $data[$i]['prediction'] = $this->fighter1->name.' '.$prediction->display_name;
+                    $data[$i]['status'] = $prediction->status($this);
+                    $i++;
                   break;
-            case 'draw':
-                  $data[] = $prediction->display_name;
+                case 'draw':
+                    $data[$i]['id'] = $prediction->id;
+                    $data[$i]['prediction'] = $prediction->display_name;
+                    $data[$i]['status'] = $prediction->status($this);
+                    $i++;
                   break;
             case 'fighter2-on-points':
-                  $data[] = $this->fighter2->name.' '.$prediction->display_name;
+                    $data[$i]['id'] = $prediction->id;
+                    $data[$i]['prediction'] = $this->fighter2->name.' '.$prediction->display_name;
+                    $data[$i]['status'] = $prediction->status($this);
+                    $i++;
                   break;
             case 'fighter2-distance':
-                  $data[] = $this->fighter2->name.' '.$prediction->display_name;
+                    $data[$i]['id'] = $prediction->id;
+                    $data[$i]['prediction'] = $this->fighter2->name.' '.$prediction->display_name;
+                    $data[$i]['status'] = $prediction->status($this);
+                    $i++;
                   break;
           }
         }
@@ -86,5 +101,10 @@ class Fight extends Model
         }
 
         return null;
+    }
+
+    public function totalPredictions()
+    {
+        return UserPrediction::where('fight_id', $this->id)->count();
     }
 }
