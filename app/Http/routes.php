@@ -16,18 +16,16 @@
     $app->get('fight/all', 'FightController@all');
     $app->get('fight/make_prediction', 'FightController@makePrediction');
     $app->get('fight/getPredictions', 'FightController@getPredictions');
-
-   // $app->get('/', function () use ($app) {
-     //       return $app->version();
-   // });
-   // $app->get('/foo', function(){
-        
-   // });
+    $app->get('user/old_predictions', 'FightController@getOldFights');
    
 });
+ 
+ /**
+  * for ssh testing
+  */
  $app->get('/', function () use ($app) {
-            return $app->version();
+        return $app->version();
     });
-    $app->get('/foo', function(){
-return "Hello";
+ $app->get('/foo', function () {
+        return "Hello";
     });

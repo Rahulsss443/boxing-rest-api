@@ -27,17 +27,7 @@ class FightController extends Controller
     public function all()
     {
         $fights = Fight::all();
-        $data = [];
-        $i = 0;
-        foreach ($fights as $fight) {
-            $data[$i]['fight_id'] = $fight->id;
-            $data[$i]['fighter1'] = $fight->fighter1->name;
-            $data[$i]['fighter2'] = $fight->fighter2->name;
-            $data[$i]['start_date'] = $fight->start;
-            $data[$i]['predicted'] = $fight->isPredicted();
-            $i++;
-        }
-        return json_encode($data);
+        return $this->formatFightDataToSend($fights);
     }
 
     public function makePrediction(Request $request)
@@ -63,5 +53,27 @@ class FightController extends Controller
         return json_encode($data);
     }
 
+    public function getOldFights()
+    {
+        $fights = Auth::user()->predictedFights();
+        return $this->formatFightDataToSend( $fights);
+    }
 
+    protected function formatFightDataToSend($fights)
+    {
+        $data = [];
+        $i = 0;
+        foreach ($fights as $fight) {
+            if(!$fight->id){
+                continue;
+            }
+            $data[$i]['fight_id'] = $fight->id;
+            $data[$i]['fighter1'] = $fight->fighter1->name;
+            $data[$i]['fighter2'] = $fight->fighter2->name;
+            $data[$i]['start_date'] = $fight->start;
+            $data[$i]['predicted'] = $fight->isPredicted();
+            $i++;
+        }
+        return json_encode($data);
+    }
 }
