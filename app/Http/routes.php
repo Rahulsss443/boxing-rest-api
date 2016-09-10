@@ -21,9 +21,10 @@ use App\Models\Fight;
     $app->get('user/old_predictions', 'FightController@getOldFights');
     $app->get('fight/allwithscores', 'FightController@allFormalFightWithScores');
     $app->get('fight/customewithscores', 'FightController@allCustomeFightWithScores');
-    // $app->get('test', function(){
-    //       return Fight::find(3)->scores();
-    // });
+    $app->get('outcomes', 'FightController@getOutcomes');
+    $app->get('fight/allscores/{fight_id}', 'FightController@fightWithScore');
+    $app->get('fight/store_round_score', 'FightController@storeRoundScore');
+   
 
    
 });

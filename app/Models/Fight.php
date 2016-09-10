@@ -112,24 +112,24 @@ class Fight extends Model
 
     public static function formalFights()
     {
-       return  self::where('custome', 0)->get();
+        return  self::where('custome', 0)->get();
     }
 
-    public static function customeFights() {
-       return  self::where('custome', 1)->get();
+    public static function customeFights()
+    {
+        return  self::where('custome', 1)->get();
     }
 
     public function scores()
     {
-
         $data = ['fight_id' => $this->id, 'user_id' => Auth::user()->id];
         $scoreFighter1 = 0;
         $scoreFighter2 = 0;
 
-        $Results =  FightResult::where($data)
+        $results =  FightResult::where($data)
                                 ->get();
 
-        foreach ($Results as $result) {
+        foreach ($results as $result) {
             $scoreFighter1 += (int)$result->fighter1_score;
             $scoreFighter2 += (int)$result->fighter2_score;
         }
@@ -138,10 +138,7 @@ class Fight extends Model
         $outcome = FightResult::where($data)
                                 ->where('outcome_id', '>', 0)
                                 ->first();
-
-
         if ($outcome) {
-
             $outcomeAbbr = Outcome::find($outcome->outcome_id)->abbr;
              
             $winner = Fighter::find($outcome->winner);
@@ -152,6 +149,52 @@ class Fight extends Model
                 $scoreFighter1 = 'L'.$scoreFighter1.'/'.$outcomeAbbr.''.$outcome->round_no;
                 $scoreFighter2 = 'W'.$scoreFighter2.'/'.$outcomeAbbr.''.$outcome->round_no;
             }
+        }
+
+        return [
+                'fighter1'=> $scoreFighter1,
+                'fighter2'=> $scoreFighter2
+                ];
+    }
+
+    public function getScore()
+    {
+        $data = ['fight_id' => $this->id, 'user_id' => Auth::user()->id];
+        $results =  FightResult::where($data)
+                                ->orderBy('round_no', 'ASC')
+                                ->get();
+
+        $data = [];
+        $i =0;
+        foreach ($results as $result) {
+           
+            $outcomeID  = $result->outcome_id;
+            $outcome = Outcome::find($outcomeID);
+            if ($outcome) {
+                $data[$i]  = $this->formatScore($result);
+                $data[$i]['round'] = $result->round_no;
+            } else {
+                $data[$i]['fighter1']=$result->fighter1_score;
+                $data[$i]['fighter2']=$result->fighter2_score;
+                $data[$i]['round'] = $result->round_no;
+            }
+
+            $i++;
+        }
+        return $data;
+    }
+
+    protected function formatScore($outcome)
+    {
+        $outcomeAbbr = Outcome::find($outcome->outcome_id)->abbr;
+             
+        $winner = Fighter::find($outcome->winner);
+        if ($winner->id == $this->fighter1->id) {
+            $scoreFighter1 = 'W/'.$outcomeAbbr.'';
+            $scoreFighter2 = 'L/'.$outcomeAbbr.'';
+        } else {
+            $scoreFighter1 = 'L/'.$outcomeAbbr.'';
+            $scoreFighter2 = 'W/'.$outcomeAbbr.'';
         }
 
         return [
