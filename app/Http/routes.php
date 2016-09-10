@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Fight;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -11,42 +13,26 @@
 |
 */
 
-$app->get('/', function () use ($app) {
-    return $app->version();
+ $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'], function () use ($app) {
+    $app->get('fight/create', 'FightController@create');
+    $app->get('fight/all', 'FightController@all');
+    $app->get('fight/make_prediction', 'FightController@makePrediction');
+    $app->get('fight/getPredictions', 'FightController@getPredictions');
+    $app->get('user/old_predictions', 'FightController@getOldFights');
+    $app->get('fight/allwithscores', 'FightController@allFormalFightWithScores');
+    $app->get('fight/customewithscores', 'FightController@allCustomeFightWithScores');
+    $app->get('outcomes', 'FightController@getOutcomes');
+    $app->get('fight/allscores/{fight_id}', 'FightController@fightWithScore');
+    $app->get('fight/store_round_score', 'FightController@storeRoundScore');
+  
 });
 
-/**
- * Routes for resource fight-controller
- */
-$app->get('fight-controller', 'FightControllersController@all');
-$app->get('fight-controller/{id}', 'FightControllersController@get');
-$app->post('fight-controller', 'FightControllersController@add');
-$app->put('fight-controller/{id}', 'FightControllersController@put');
-$app->delete('fight-controller/{id}', 'FightControllersController@remove');
-
-/**
- * Routes for resource test
- */
-$app->get('test', 'TestsController@all');
-$app->get('test/{id}', 'TestsController@get');
-$app->post('test', 'TestsController@add');
-$app->put('test/{id}', 'TestsController@put');
-$app->delete('test/{id}', 'TestsController@remove');
-
-/**
- * Routes for resource example
- */
-$app->get('example', 'Example@all');
-$app->get('example/{id}', 'Example@get');
-$app->post('example', 'Example@add');
-$app->put('example/{id}', 'Example@put');
-$app->delete('example/{id}', 'Example@remove');
-
-/**
- * Routes for resource example-controller
- */
-$app->get('example-controller', 'ExampleController@all');
-$app->get('example-controller/{id}', 'ExampleController@get');
-$app->post('example-controller', 'ExampleController@add');
-$app->put('example-controller/{id}', 'ExampleController@put');
-$app->delete('example-controller/{id}', 'ExampleController@remove');
+ /**
+  * for ssh testing
+  */
+ $app->get('/', function () use ($app) {
+        return $app->version();
+    });
+ $app->get('/foo', function () {
+        return "Hello";
+    });
