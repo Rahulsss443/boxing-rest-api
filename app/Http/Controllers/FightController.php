@@ -26,7 +26,7 @@ class FightController extends Controller
 
     public function all()
     {
-        $fights = Fight::all();
+        $fights = Fight::formalFights();
         return $this->formatFightDataToSend($fights);
     }
 
@@ -75,5 +75,35 @@ class FightController extends Controller
             $i++;
         }
         return json_encode($data);
+    }
+
+    public function allFormalFightWithScores() 
+    {
+        $fights = Fight::formalFights();
+        return ($fights) ? $this->setupFightScoreDataToSend($fights):[];  
+    }
+
+    protected function setupFightScoreDataToSend($fights)
+    {
+        $data = [];
+        $i = 0;
+        foreach ($fights as $fight) {
+            if(!$fight->id){
+                continue;
+            }
+            $data[$i]['fight_id'] = $fight->id;
+            $data[$i]['fighter1'] = $fight->fighter1->name;
+            $data[$i]['fighter2'] = $fight->fighter2->name;
+            $data[$i]['start_date'] = $fight->start;
+            $data[$i]['scores'] = $fight->scores();
+            $i++;
+        }
+        return json_encode($data);
+    }
+
+    public function allCustomeFightWithScores()
+    {
+        $fights = Fight::customeFights();
+        return ($fights) ? $this->setupFightScoreDataToSend($fights):[];
     }
 }

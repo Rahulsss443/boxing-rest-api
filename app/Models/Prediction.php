@@ -11,7 +11,6 @@ class Prediction extends Model
 
     public function status($fight)
     {
-
         $predictionCount = UserPrediction::where('fight_id', $fight->id)
                                         ->where('prediction_id', $this->id)
                                         ->count();

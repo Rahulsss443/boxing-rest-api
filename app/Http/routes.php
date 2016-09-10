@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Fight;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -17,6 +19,12 @@
     $app->get('fight/make_prediction', 'FightController@makePrediction');
     $app->get('fight/getPredictions', 'FightController@getPredictions');
     $app->get('user/old_predictions', 'FightController@getOldFights');
+    $app->get('fight/allwithscores', 'FightController@allFormalFightWithScores');
+    $app->get('fight/customewithscores', 'FightController@allCustomeFightWithScores');
+    // $app->get('test', function(){
+    //       return Fight::find(3)->scores();
+    // });
+
    
 });
  

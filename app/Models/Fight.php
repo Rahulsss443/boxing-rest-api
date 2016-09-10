@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\FightResult;
 use App\Models\Fighter;
+use App\Models\Outcome;
 use App\Models\Prediction;
 use App\Models\UserPrediction;
 use Auth;
@@ -106,5 +108,55 @@ class Fight extends Model
     public function totalPredictions()
     {
         return UserPrediction::where('fight_id', $this->id)->count();
+    }
+
+    public static function formalFights()
+    {
+       return  self::where('custome', 0)->get();
+    }
+
+    public static function customeFights() {
+       return  self::where('custome', 1)->get();
+    }
+
+    public function scores()
+    {
+
+        $data = ['fight_id' => $this->id, 'user_id' => Auth::user()->id];
+        $scoreFighter1 = 0;
+        $scoreFighter2 = 0;
+
+        $Results =  FightResult::where($data)
+                                ->get();
+
+        foreach ($Results as $result) {
+            $scoreFighter1 += (int)$result->fighter1_score;
+            $scoreFighter2 += (int)$result->fighter2_score;
+        }
+
+
+        $outcome = FightResult::where($data)
+                                ->where('outcome_id', '>', 0)
+                                ->first();
+
+
+        if ($outcome) {
+
+            $outcomeAbbr = Outcome::find($outcome->outcome_id)->abbr;
+             
+            $winner = Fighter::find($outcome->winner);
+            if ($winner->id == $this->fighter1->id) {
+                $scoreFighter1 = 'W'.$scoreFighter1.'/'.$outcomeAbbr.''.$outcome->round_no;
+                $scoreFighter2 = 'L'.$scoreFighter2.'/'.$outcomeAbbr.''.$outcome->round_no;
+            } else {
+                $scoreFighter1 = 'L'.$scoreFighter1.'/'.$outcomeAbbr.''.$outcome->round_no;
+                $scoreFighter2 = 'W'.$scoreFighter2.'/'.$outcomeAbbr.''.$outcome->round_no;
+            }
+        }
+
+        return [
+                'fighter1'=> $scoreFighter1,
+                'fighter2'=> $scoreFighter2
+                ];
     }
 }
