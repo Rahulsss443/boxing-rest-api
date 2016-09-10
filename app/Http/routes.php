@@ -24,11 +24,9 @@ use App\Models\Fight;
     $app->get('outcomes', 'FightController@getOutcomes');
     $app->get('fight/allscores/{fight_id}', 'FightController@fightWithScore');
     $app->get('fight/store_round_score', 'FightController@storeRoundScore');
-   
-
-   
+  
 });
- 
+
  /**
   * for ssh testing
   */

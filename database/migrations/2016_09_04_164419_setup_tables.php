@@ -34,7 +34,6 @@ class SetupTables extends Migration
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('fighter2_id')->references('id')->on('fighters')
                 ->onUpdate('cascade')->onDelete('cascade');
-            
             $table->timestamps();
         });
 
@@ -45,6 +44,7 @@ class SetupTables extends Migration
             $table->string('abbr')->unique();
             $table->timestamps();
         });
+
 
         Schema::create('fight_result', function (Blueprint $table) {
             $table->increments('id');
