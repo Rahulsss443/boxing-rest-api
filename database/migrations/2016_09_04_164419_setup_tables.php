@@ -45,7 +45,6 @@ class SetupTables extends Migration
             $table->timestamps();
         });
 
-
         Schema::create('fight_result', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('fight_id')->unsigned();
