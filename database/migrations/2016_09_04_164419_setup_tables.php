@@ -34,7 +34,6 @@ class SetupTables extends Migration
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('fighter2_id')->references('id')->on('fighters')
                 ->onUpdate('cascade')->onDelete('cascade');
-            
             $table->timestamps();
         });
 
