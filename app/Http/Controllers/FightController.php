@@ -165,6 +165,10 @@ class FightController extends Controller
       $data['score'] = $fight->getScore();
       $data['final_score'] = $fight->scores();
       $data['fight_id'] = $fightID;
+      $data['fighters'] = [
+              'fighter1' =>[ 'name' => $fight->fighter1->name, 'id' => $fight->fighter1->id ],
+              'fighter2' => [ 'name' => $fight->fighter2->name, 'id' => $fight->fighter2->id ],
+      ];
       return json_encode($data);   
     }
 }
